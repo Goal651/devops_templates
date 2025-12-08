@@ -8,7 +8,10 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 # Installing needed packages for our application
-RUN npm install 
+# RUN npm install 
+
+# Installing needed packages for our application faster and more consistent
+RUN npm ci
 
 # Copying the rest of the application files to the /app directory
 COPY . . 
@@ -19,5 +22,5 @@ EXPOSE 3000
 #For many ports
 EXPOSE 3000 4000 5000 
 
-# Running the application
+#Running the application
 CMD [ "npm","start" ]
