@@ -1,3 +1,6 @@
+# The best one optimized best for production
+
+
 # This is the base image for creating our image
 # This is the builder image
 FROM node:alpine  as builder
