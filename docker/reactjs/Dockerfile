@@ -27,7 +27,7 @@ COPY --from=builder /app/build /usr/share/nginx/html
 # Copy custom nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Create non-root user for nginx
+# Create non-root user for nginx 
 RUN addgroup -g 1001 -S nginxgroup && \
     adduser -S nginxuser -u 1001 -G nginxgroup && \
     chown -R nginxuser:nginxgroup /var/cache/nginx && \
