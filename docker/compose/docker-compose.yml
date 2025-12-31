@@ -40,11 +40,11 @@ services:
     
     # Health Check
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:port"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
+      test: ["CMD", "curl", "-f", "http://localhost:port"] # Health check command
+      interval: 30s   # Check interval
+      timeout: 10s    # Check timeout
+      retries: 3      # Number of retries
+      start_period: 40s # Start period
     
     # Dependencies
     depends_on:
