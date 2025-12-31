@@ -1,0 +1,145 @@
+services:
+  service-name:
+    # Image Configuration
+    image: image-name:tag          # Official Docker image (e.g., nginx:alpine)
+    # OR use build if you have a Dockerfile:
+    build: 
+      context: ./app              # Path to Dockerfile directory
+      dockerfile: Dockerfile      # Optional: Custom Dockerfile name
+      # args:                     # Build arguments
+      #   BUILD_ENV: production
+    
+    # Container Configuration
+    container_name: custom-name    # Optional: Give container a specific name
+    
+    # Port Mapping (Host:Container)
+    ports:
+      - "host-port:container-port"  # e.g., "8080:80"
+      # - "443:443"                     # Additional ports if needed
+    
+    # Networking
+    networks:
+      - network-name               # Connect to custom network
+    
+    # Environment Variables (multiple ways)
+    environment:
+      - ENV_VAR_1=value1            # Inline environment variables
+      - ENV_VAR_2=value2
+    env_file:
+      - .env                         # Load from .env file in same directory
+      - ./config/app.env             # OR specific env file path
+    
+    # Volumes & Bind Mounts
+    volumes:
+      # Named volume (managed by Docker)
+      - volume-name:/path/in/container
+      # Bind mount (host directory)
+      - ./local/path:/path/in/container
+      # Read-only mount
+      - ./config:/app/config:ro
+    
+    # Health Check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:port"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    
+    # Dependencies
+    depends_on:
+      - other-service-name        # Wait for other services
+      # Optional health condition:
+      #   condition: service_healthy
+      #   condition: service_started
+    
+    # Resource Limits
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50' # CPU limit
+          memory: 512M # Memory limit
+        reservations:
+          cpus: '0.25' # CPU reservation
+          memory: 256M # Memory reservation
+    
+    # Restart Policy
+    restart: unless-stopped          # Options: no, always, on-failure, unless-stopped
+    
+    # Working Directory & User
+    working_dir: /app                # Set working directory inside container
+    user: "1000:1000"                # Run as specific user (UID:GID)
+    
+    # Command Override
+    command: ["custom", "command"]   # Override default CMD from image
+    # OR
+    entrypoint: ["/app/entrypoint.sh"]
+    
+    # Labels
+    labels:
+      - "com.example.description=My Service"
+      - "com.example.version=1.0"
+    
+    # Logging Configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    
+    # Extra Hosts (host:ip mapping)
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+      - "custom.host:192.168.1.100"
+    
+    # Security (simple options)
+    security_opt:
+      - "no-new-privileges:true"
+    read_only: true                  # Mount root filesystem as read-only
+    tmpfs:
+      - /tmp
+    
+    # TTY & STDIN
+    tty: true                        # Allocate pseudo-TTY
+    stdin_open: true                 # Keep STDIN open
+    
+    # Domain sockets
+    # external_links:
+    #   - redis_1
+    #   - project_db_1:mysql
+    
+    # Init process
+    init: true                       # Use init process to reap zombies
+
+
+# Custom Networks
+networks:
+  network-name:                    # Create custom network
+    driver: bridge                   # Bridge, overlay, host, none
+    # driver: overlay                # For swarm mode
+    # external: true                 # Use existing network
+    # name: custom-network-name      # Custom network name
+    # ipam:                         # IP Address Management
+    #   config:
+    #     - subnet: 172.20.0.0/24
+
+# Named Volumes
+volumes:
+  volume-name:                       # Create named volume
+    # external: true                 # Use existing volume
+    # name: custom-volume-name       # Custom volume name
+    # driver: local                  # Storage driver
+    # driver_opts:
+    #   type: none
+    #   device: /path/to/storage
+    #   o: bind
+
+# Configs (for sensitive data)
+configs:
+  app_config:
+    file: ./config/app.conf
+
+# Secrets (for sensitive data)
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt
