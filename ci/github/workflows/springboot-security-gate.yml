@@ -1,0 +1,40 @@
+name: Spring Boot Security Gate
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  springboot-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Verify Spring Boot version
+        run: |
+          if [ ! -f pom.xml ]; then
+            echo "No pom.xml found. Skipping Spring Boot check."
+            exit 0
+          fi
+
+          SPRING_VERSION=$(grep -oPm1 "(?<=<spring-boot.version>)[^<]+" pom.xml || true)
+
+          if [ -z "$SPRING_VERSION" ]; then
+            echo "No Spring Boot version detected. Skipping."
+            exit 0
+          fi
+
+          SPRING_MAJOR=$(echo "$SPRING_VERSION" | cut -d. -f1)
+          echo "Detected Spring Boot version: $SPRING_VERSION"
+
+          if [ "$SPRING_MAJOR" -lt 3 ]; then
+            echo "❌ SECURITY GATE FAILED"
+            echo "Spring Boot $SPRING_VERSION is below the approved minimum (3.x)"
+            exit 1
+          fi
+
+          echo "✅ Spring Boot version compliant"

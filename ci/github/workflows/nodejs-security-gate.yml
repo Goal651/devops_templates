@@ -1,0 +1,33 @@
+name: Node.js Security Gate
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  node-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Verify Node.js runtime
+        run: |
+          NODE_MAJOR=$(node -v | cut -d. -f1 | tr -d 'v')
+          echo "Detected Node.js version: $(node -v)"
+
+          if [ "$NODE_MAJOR" -lt 18 ]; then
+            echo "❌ SECURITY GATE FAILED"
+            echo "Node.js version is below 18 LTS. Upgrade required."
+            exit 1
+          fi
+
+          echo "✅ Node.js runtime compliant"
