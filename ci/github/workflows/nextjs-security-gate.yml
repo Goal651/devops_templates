@@ -1,0 +1,41 @@
+name: Next.js Security Gate
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  nextjs-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Verify Next.js version
+        run: |
+          if [ ! -f package.json ]; then
+            echo "No package.json found. Skipping Next.js check."
+            exit 0
+          fi
+
+          NEXT_VERSION=$(jq -r '.dependencies.next // .devDependencies.next // empty' package.json)
+
+          if [ -z "$NEXT_VERSION" ]; then
+            echo "No Next.js dependency detected. Skipping."
+            exit 0
+          fi
+
+          NEXT_MAJOR=$(echo "$NEXT_VERSION" | grep -oE '[0-9]+' | head -1)
+
+          echo "Detected Next.js version: $NEXT_VERSION"
+
+          if [ "$NEXT_MAJOR" -lt 16 ]; then
+            echo "❌ SECURITY GATE FAILED"
+            echo "Next.js $NEXT_VERSION is below the approved minimum (16.x)"
+            exit 1
+          fi
+
+          echo "✅ Next.js version compliant"

@@ -1,0 +1,41 @@
+name: React Security Gate
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  react-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Verify React version
+        run: |
+          if [ ! -f package.json ]; then
+            echo "No package.json found. Skipping React check."
+            exit 0
+          fi
+
+          REACT_VERSION=$(jq -r '.dependencies.react // .devDependencies.react // empty' package.json)
+
+          if [ -z "$REACT_VERSION" ]; then
+            echo "No React dependency detected. Skipping."
+            exit 0
+          fi
+
+          REACT_MAJOR=$(echo "$REACT_VERSION" | grep -oE '[0-9]+' | head -1)
+
+          echo "Detected React version: $REACT_VERSION"
+
+          if [ "$REACT_MAJOR" -lt 18 ]; then
+            echo "❌ SECURITY GATE FAILED"
+            echo "React $REACT_VERSION is below the approved minimum (18.x)"
+            exit 1
+          fi
+
+          echo "✅ React version compliant"
