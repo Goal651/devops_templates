@@ -1,0 +1,47 @@
+# API version determines which version of Kubernetes API to use
+# v1 is the stable/core API version
+apiVersion: v1
+
+# The type of resource we're creating - ReplicaSet ensures desired number of pods are running
+kind: ReplicaSet
+
+# Metadata section contains information about this ReplicaSet object
+metadata:
+    # Name of this ReplicaSet - must be unique within the namespace
+    name: front-end
+    # Labels are key-value pairs attached to this ReplicaSet object itself
+    labels:
+        # Identifies this ReplicaSet as part of the "guestbook" application
+        app: guestbook
+        # Indicates this is part of the front-end tier
+        tier: front-end
+
+# Specificat2ion section defines the desired state of the ReplicaSet
+spec:
+    # Desired number of pod replicas to run (Kubernetes will maintain exactly 3)
+    replicas: 3
+
+    # Selector determines which pods this ReplicaSet will manage
+    selector:
+        # matchLabels requires exact label matching
+        matchLabels:
+            # Will manage all pods with label "tier: front-end"
+            tier: front-end
+
+    # Template defines the pod configuration for each replica
+    template:
+        # Metadata for pods created by this template
+        metadata:
+            # Labels that will be applied to each created pod
+            labels:
+                # Must match the selector above (tier: front-end)
+                tier: front-end
+
+        # Pod specification - defines what runs inside each pod
+        spec:
+            # List of containers in the pod
+            containers:
+              # First (and only) container in this pod
+              - name: nginx
+                # Container image to use - pulls nginx:latest from Docker Hub
+                image: nginx:latest
