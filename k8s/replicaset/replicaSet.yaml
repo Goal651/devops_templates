@@ -1,6 +1,6 @@
 # API version determines which version of Kubernetes API to use
 # v1 is the stable/core API version
-apiVersion: v1
+apiVersion: apps/v1
 
 # The type of resource we're creating - ReplicaSet ensures desired number of pods are running
 kind: ReplicaSet
