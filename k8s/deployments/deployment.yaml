@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: frontend-deployment
+spec:
+    replicas: 3
+    selector:
+        matchLabels:
+            app: guestbook
+            tier: frontend
+
+    strategy:
+        type: RollingUpdate
+        rollingUpdate:
+            maxSurge: 1
+            maxUnavailable: 0
+
+    revisionHistoryLimit: 5
+
+    minReadySeconds: 10
+
+    template:
+        metadata:
+            labels:
+                app: guestbook
+                tier: frontend
+        spec:
+            containers:
+              - name: nginx
+                image: nginx:1.19
