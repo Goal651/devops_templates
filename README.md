@@ -23,57 +23,60 @@ docker-compose up -d
 
 ### 🐳 Docker Templates
 
-| Category | Description | Status |
-|----------|-------------|---------|
-| Basic Containers | Simple single-service containers | ✅ Ready |
-| Multi-Stage Builds | Optimized production images | ✅ Ready |
-| Docker Compose | Multi-service local development | ✅ Ready |
+| Category           | Description                        | Status         |
+| ------------------ | ---------------------------------- | -------------- |
+| Basic Containers   | Simple single-service containers   | ✅ Ready       |
+| Multi-Stage Builds | Optimized production images        | ✅ Ready       |
+| Docker Compose     | Multi-service local development    | ✅ Ready       |
 | Security Hardening | Production security configurations | 🔄 In Progress |
-| GPU Containers | AI/ML workloads with CUDA | 🔄 In Progress |
-| Windows Containers | .NET and Windows applications | 🔄 In Progress |
+| GPU Containers     | AI/ML workloads with CUDA          | 🔄 In Progress |
+| Windows Containers | .NET and Windows applications      | 🔄 In Progress |
 
 ### ☸️ Kubernetes Templates
 
-| Category | Description | Status |
-|----------|-------------|---------|
-| Basic Manifests | Pods, Deployments, Services | 🔄 In Progress |
-| Helm Charts | Reusable application packages | 🔄 In Progress |
-| Operators | Custom resource definitions | 🔄 In Progress |
-| GitOps | ArgoCD/Flux configurations | 🔄 In Progress |
+| Category        | Description                   | Status         |
+| --------------- | ----------------------------- | -------------- |
+| Basic Manifests | Pods, Deployments, Services   | 🔄 In Progress |
+| Helm Charts     | Reusable application packages | 🔄 In Progress |
+| Operators       | Custom resource definitions   | 🔄 In Progress |
+| GitOps          | ArgoCD/Flux configurations    | 🔄 In Progress |
 
 ### 🔄 CI/CD Templates
 
-| Category | Description | Status |
-|----------|-------------|---------|
-| GitHub Actions | Automated workflows | 🔄 In Progress |
-| GitLab CI | Pipeline configurations | 🔄 In Progress |
-| Jenkins | Shared library templates | 🔄 In Progress |
-| Security Scanning | SAST/DAST integration | 🔄 In Progress |
+| Category          | Description              | Status         |
+| ----------------- | ------------------------ | -------------- |
+| GitHub Actions    | Automated workflows      | 🔄 In Progress |
+| GitLab CI         | Pipeline configurations  | 🔄 In Progress |
+| Jenkins           | Shared library templates | 🔄 In Progress |
+| Security Scanning | SAST/DAST integration    | 🔄 In Progress |
 
 ### 🏗️ Infrastructure Templates
 
-| Category | Description | Status |
-|----------|-------------|---------|
-| Terraform | Cloud infrastructure | 🔄 In Progress |
-| Ansible | Configuration management | 🔄 In Progress |
+| Category   | Description               | Status         |
+| ---------- | ------------------------- | -------------- |
+| Terraform  | Cloud infrastructure      | 🔄 In Progress |
+| Ansible    | Configuration management  | 🔄 In Progress |
 | Monitoring | Prometheus/Grafana stacks | 🔄 In Progress |
-| Logging | ELK/Fluentd setups | 🔄 In Progress |
+| Logging    | ELK/Fluentd setups        | 🔄 In Progress |
 
 ## 🎯 Why This Repository?
 
 ### ✅ For Beginners
+
 - Copy-paste ready templates
 - Step-by-step explanations
 - Best practices included
 - Common pitfalls documented
 
 ### ✅ For Professionals
+
 - Production-hardened configurations
 - Security-first approach
 - Performance optimization tips
 - Scalability considerations
 
 ### ✅ For Enterprises
+
 - Compliance-ready templates
 - Multi-environment support
 - Cost optimization strategies
@@ -86,7 +89,7 @@ docker-compose up -d
 ```yaml
 # Complete Nginx + Node.js + PostgreSQL + Redis
 # With security, monitoring, and backup
-version: '3.8'
+version: "3.8"
 services:
   web:
     image: nginx:alpine
